@@ -1,8 +1,8 @@
-APP_NAME ?= FreeFlow Dev
-BUNDLE_ID ?= com.zachlatta.freeflow.dev
+APP_NAME ?= OpenFlow
+BUNDLE_ID ?= com.vrajrajpura.openflow
 BUILD_DIR = build
 APP_BUNDLE = $(BUILD_DIR)/$(APP_NAME).app
-CODESIGN_IDENTITY ?= FreeFlow Dev
+CODESIGN_IDENTITY ?= -
 CONTENTS = $(APP_BUNDLE)/Contents
 MACOS_DIR = $(CONTENTS)/MacOS
 empty :=
@@ -13,7 +13,7 @@ APP_EXECUTABLE_TARGET := $(subst $(space),\ ,$(APP_EXECUTABLE))
 SOURCES = $(wildcard Sources/*.swift)
 RESOURCES = $(CONTENTS)/Resources
 ARCH ?= $(shell uname -m)
-ICON_SOURCE = Resources/AppIcon-Source.png
+ICON_SOURCE = Resources/OpenFlow.png
 ICON_ICNS = Resources/AppIcon.icns
 
 .PHONY: all clean run icon dmg codesign-dmg notarize

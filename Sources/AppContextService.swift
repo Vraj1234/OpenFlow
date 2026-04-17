@@ -91,43 +91,14 @@ Return only two sentences, no labels, no markdown, no extra commentary.
 
         let windowTitle = focusedWindowTitle(from: appElement) ?? appName
         let selectedText = selectedText(from: appElement)
-        let screenshot = captureActiveWindowScreenshot(
-            processIdentifier: frontmostApp.processIdentifier,
-            appElement: appElement,
-            focusedWindowTitle: windowTitle
+
+        let currentActivity = fallbackCurrentActivity(
+            appName: appName,
+            bundleIdentifier: bundleIdentifier,
+            selectedText: selectedText,
+            windowTitle: windowTitle,
+            screenshotAvailable: false
         )
-        let currentActivity: String
-        let contextPrompt: String?
-        if !apiKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            if let result = await inferActivityWithLLM(
-                appName: appName,
-                bundleIdentifier: bundleIdentifier,
-                windowTitle: windowTitle,
-                selectedText: selectedText,
-                screenshotDataURL: screenshot.dataURL
-            ) {
-                currentActivity = result.activity
-                contextPrompt = result.prompt
-            } else {
-                currentActivity = fallbackCurrentActivity(
-                    appName: appName,
-                    bundleIdentifier: bundleIdentifier,
-                    selectedText: selectedText,
-                    windowTitle: windowTitle,
-                    screenshotAvailable: screenshot.dataURL != nil
-                )
-                contextPrompt = nil
-            }
-        } else {
-            currentActivity = fallbackCurrentActivity(
-                appName: appName,
-                bundleIdentifier: bundleIdentifier,
-                selectedText: selectedText,
-                windowTitle: windowTitle,
-                screenshotAvailable: screenshot.dataURL != nil
-            )
-            contextPrompt = nil
-        }
 
         return AppContext(
             appName: appName,
@@ -135,10 +106,10 @@ Return only two sentences, no labels, no markdown, no extra commentary.
             windowTitle: windowTitle,
             selectedText: selectedText,
             currentActivity: currentActivity,
-            contextPrompt: contextPrompt,
-            screenshotDataURL: screenshot.dataURL,
-            screenshotMimeType: screenshot.mimeType,
-            screenshotError: screenshot.error
+            contextPrompt: nil,
+            screenshotDataURL: nil,
+            screenshotMimeType: nil,
+            screenshotError: nil
         )
     }
 

@@ -1,43 +1,41 @@
 <p align="center">
-  <img src="Resources/AppIcon-Source.png" width="128" height="128" alt="FreeFlow icon">
+  <img src="Resources/OpenFlow.png" width="128" height="128" alt="OpenFlow icon">
 </p>
 
-<h1 align="center">FreeFlow</h1>
+<h1 align="center">OpenFlow</h1>
 
 <p align="center">
   Free and open source alternative to <a href="https://wisprflow.ai">Wispr Flow</a>, <a href="https://superwhisper.com">Superwhisper</a>, and <a href="https://monologue.to">Monologue</a>.
 </p>
 
 <p align="center">
-  <a href="https://github.com/zachlatta/freeflow/releases/latest/download/FreeFlow.dmg"><b>⬇ Download FreeFlow.dmg</b></a><br>
+  <a href="https://github.com/Vraj1234/freeflow/releases/latest/download/OpenFlow.dmg"><b>⬇ Download OpenFlow.dmg</b></a><br>
   <sub>Works on all Macs (Apple Silicon + Intel)</sub>
 </p>
 
 ---
 
-<p align="center">
-  <img src="Resources/demo.gif" alt="FreeFlow demo" width="600">
-</p>
+> **OpenFlow** is a fork of [zachlatta/freeflow](https://github.com/zachlatta/freeflow) by [Vraj1234](https://github.com/Vraj1234) with the following changes:
+> - Screen capture and context-awareness LLM calls are disabled — Groq only receives your voice recordings
+> - Renamed and rebranded as OpenFlow
+
+---
 
 <p align="center">
-  <i>Thank you to <a href="https://github.com/marcbodea">@marcbodea</a> for maintaining FreeFlow!</i>
+  <img src="Resources/demo.gif" alt="OpenFlow demo" width="600">
 </p>
 
 I like the concept of apps like [Wispr Flow](https://wisprflow.ai/), [Superwhisper](https://superwhisper.com/), and [Monologue](https://www.monologue.to/) that use AI to add accurate and easy-to-use transcription to your computer, but they all charge fees of ~$10/month when the underlying AI models are free to use or cost pennies.
 
-So over the weekend I vibe-coded my own free version!
+OpenFlow is a free, open source version. Here's how it works:
 
-It's called FreeFlow. Here's how it works:
-
-1. Download the app from above or [click here](https://github.com/zachlatta/freeflow/releases/latest/download/FreeFlow.dmg)
+1. Download the app from above or [click here](https://github.com/Vraj1234/freeflow/releases/latest/download/OpenFlow.dmg)
 2. Get a free Groq API key from [groq.com](https://groq.com/)
 3. Hold `Fn` to talk, or tap `Command-Fn` to start and stop dictation, and have whatever you say pasted into the current text field
 
 You can also customize both shortcuts. If your toggle shortcut extends your hold shortcut, you can start in hold mode and press the extra modifier keys to latch into tap mode without stopping the recording.
 
-One of the cool features is that it's context aware. If you're replying to an email, it'll read the names of the people you're replying to and make sure to spell their names correctly. Same with if you're dictating into a terminal or another app. This is the same thing as Monologue's "Deep Context" feature.
-
-An added bonus is that there's no FreeFlow server, so no data is stored or retained - making it more privacy friendly than the SaaS apps. The only information that leaves your computer are the API calls to Groq's transcription and LLM API (LLM is for post-processing the transcription to adapt to context).
+There's no OpenFlow server, so no data is stored or retained — the only information that leaves your computer is the audio sent to Groq's transcription API and your transcript sent to Groq's LLM API for post-processing (cleaning up punctuation, grammar, and spelling).
 
 If you'd rather keep cleanup more literal and less context-aware, you can paste this simpler prompt into the custom system prompt setting:
 
@@ -69,13 +67,9 @@ Then your response would be ONLY the cleaned up text, so here your response is O
 
 **Why does this use Groq instead of a local transcription model?**
 
-I love this idea, and originally planned to build FreeFlow using local models, but to have post-processing (that's where you get correctly spelled names when replying to emails / etc), you need to have a local LLM too.
+Local models are great in theory, but to get post-processing (correctly spelled names, proper punctuation), you need a local LLM too. The total pipeline then takes 5–10 seconds per transcription instead of under 1 second, and battery life takes a hit.
 
-If you do that, the total pipeline takes too long for the UX to be good (5-10 seconds per transcription instead of <1s). I also had concerns around battery life.
-
-Some day!
-
-**Update:** You can now use a custom model with FreeFlow by configuring the LLM API URL in the FreeFlow settings to use Ollama. Thank you @taciturnaxolotl!
+You can use a custom model with OpenFlow by configuring the LLM API URL in the OpenFlow settings to use Ollama.
 
 ## License
 
