@@ -115,45 +115,17 @@ Return only two sentences, no labels, no markdown, no extra commentary.
 
         let windowTitle = focusedWindowTitle(from: appElement) ?? appName
         let selectedText = selectedText(from: appElement)
-        let screenshot = captureActiveWindowScreenshot(
-            processIdentifier: frontmostApp.processIdentifier,
-            appElement: appElement,
-            focusedWindowTitle: windowTitle
-        )
-        let currentActivity: String
-        let contextPrompt: String?
-        if !apiKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            if let result = await inferActivityWithLLM(
-                appName: appName,
-                bundleIdentifier: bundleIdentifier,
-                windowTitle: windowTitle,
-                selectedText: selectedText,
-                screenshotDataURL: screenshot.dataURL,
-                contextSystemPrompt: contextSystemPrompt
-            ) {
-                currentActivity = result.activity
-                contextPrompt = result.prompt
-            } else {
-                currentActivity = fallbackCurrentActivity(
-                    appName: appName,
-                    bundleIdentifier: bundleIdentifier,
-                    selectedText: selectedText,
-                    windowTitle: windowTitle,
-                    screenshotAvailable: screenshot.dataURL != nil
-                )
-                contextPrompt = nil
-            }
-        } else {
-            currentActivity = fallbackCurrentActivity(
-                appName: appName,
-                bundleIdentifier: bundleIdentifier,
-                selectedText: selectedText,
-                windowTitle: windowTitle,
-                screenshotAvailable: screenshot.dataURL != nil
-            )
-            contextPrompt = nil
-        }
 
+        let currentActivity = fallbackCurrentActivity(
+            appName: appName,
+            bundleIdentifier: bundleIdentifier,
+            selectedText: selectedText,
+            windowTitle: windowTitle,
+            screenshotAvailable: false
+        )
+
+        // Privacy: OpenFlow never captures a screenshot or sends app context to an
+        // LLM. currentActivity is derived locally from app/window metadata only.
         return AppContext(
             appName: appName,
             bundleIdentifier: bundleIdentifier,
@@ -161,10 +133,10 @@ Return only two sentences, no labels, no markdown, no extra commentary.
             selectedText: selectedText,
             currentActivity: currentActivity,
             contextSystemPrompt: contextSystemPrompt,
-            contextPrompt: contextPrompt,
-            screenshotDataURL: screenshot.dataURL,
-            screenshotMimeType: screenshot.mimeType,
-            screenshotError: screenshot.error
+            contextPrompt: nil,
+            screenshotDataURL: nil,
+            screenshotMimeType: nil,
+            screenshotError: nil
         )
     }
 
