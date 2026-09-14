@@ -1341,15 +1341,6 @@ struct GeneralSettingsView: View {
                     appState.openAccessibilitySettings()
                 }
             )
-
-            permissionRow(
-                title: "Screen Recording",
-                icon: "camera.viewfinder",
-                granted: appState.hasScreenRecordingPermission,
-                action: {
-                    appState.requestScreenCapturePermission()
-                }
-            )
         }
     }
 

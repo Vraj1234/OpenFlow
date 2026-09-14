@@ -1311,16 +1311,16 @@ final class AppState: ObservableObject, @unchecked Sendable {
         accessibilityTimer?.invalidate()
         accessibilityTimer = nil
         hasAccessibility = AXIsProcessTrusted()
-        hasScreenRecordingPermission = hasScreenCapturePermission()
-        if hasAccessibility && hasScreenRecordingPermission {
+        // Screen Recording is not requested in this fork (screen capture is disabled),
+        // so it must not gate when polling stops — only Accessibility is required.
+        if hasAccessibility {
             return
         }
         accessibilityTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { [weak self] _ in
             DispatchQueue.main.async {
                 guard let self else { return }
                 self.hasAccessibility = AXIsProcessTrusted()
-                self.hasScreenRecordingPermission = self.hasScreenCapturePermission()
-                if self.hasAccessibility && self.hasScreenRecordingPermission {
+                if self.hasAccessibility {
                     self.accessibilityTimer?.invalidate()
                     self.accessibilityTimer = nil
                 }
