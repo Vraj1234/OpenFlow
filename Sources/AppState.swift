@@ -2018,10 +2018,9 @@ final class AppState: ObservableObject, @unchecked Sendable {
         ) else { return false }
 
         if resolvedIntent.isCommandMode {
-            guard ensureScreenCaptureAccess() else { return false }
-            if let startedAt {
-                os_log(.info, log: recordingLog, "screen capture check passed: %.3fms", (CFAbsoluteTimeGetCurrent() - startedAt) * 1000)
-            }
+            // Screen capture is disabled in this fork; context is collected without screenshots.
+            // No screen recording permission is required for command mode.
+            hasScreenRecordingPermission = hasScreenCapturePermission()
         } else {
             hasScreenRecordingPermission = hasScreenCapturePermission()
         }
